@@ -7,10 +7,19 @@ output:
 
 
 ## Loading and preprocessing the data
+To begin the data must be downloaded in to the working directory.
+``` {r download}
+download.file("https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip", 
+              destfile = "data.zip")
+unzip("data.zip")
+```
+The data was saved as activity.csv. The following code will then store the data into a data frame.
+``` {r read}
+actData <- read.csv("activity.csv", header = TRUE, 
+                    colClasses = c("integer", "Date", "integer"))
+```
 
-
-
-## What is mean total number of steps taken per day?
+## Mean steps
 
 
 
