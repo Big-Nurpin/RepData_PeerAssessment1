@@ -19,11 +19,27 @@ actData <- read.csv("activity.csv", header = TRUE,
                     colClasses = c("integer", "Date", "integer"))
 ```
 
-## Mean steps
+## Mean and median steps
+Since the the data contains missing values, they will be ignored for now.
+```{r remove}
+noNa <- na.omit(actData)
+```
+### Daily steps
+A vector of daily steps can be created with the following code.
+```{r daily}
+daily <- integer()
+dailyList <- split(noNa, noNa$date)
+## Iterate of each day and put the sum of steps into daily vector
+for(i in 1:53) {
+    daily[i] <- sum(data.frame(dailyList[i])[, 1])
+}
+```
+Plotting the daily steps yields the following histogram:
+``` {r histogram}
+hist(daily, xlab = "Daily Steps", main = "", col = "red", breaks = 10)
+```
 
-
-
-## What is the average daily activity pattern?
+## Average daily activity patterns
 
 
 
