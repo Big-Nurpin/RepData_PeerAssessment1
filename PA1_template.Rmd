@@ -29,7 +29,7 @@ A vector of daily steps can be created with the following code.
 ```{r daily}
 daily <- integer()
 dailyList <- split(noNa, noNa$date)
-## Iterate of each day and put the sum of steps into daily vector
+## Iterate over each day and put the sum of steps into daily vector
 for(i in 1:53) {
     daily[i] <- sum(data.frame(dailyList[i])[, 1])
 }
@@ -37,6 +37,14 @@ for(i in 1:53) {
 Plotting the daily steps yields the following histogram:
 ``` {r histogram}
 hist(daily, xlab = "Daily Steps", main = "", col = "red", breaks = 10)
+```
+
+The mean and median steps are calculated and displayed.
+``` {r mm,}
+mn <- mean(daily)
+md <- median(daily)
+mm <- c(Mean = mn, Median = md)
+print(mm, type = "html")
 ```
 
 ## Average daily activity patterns
