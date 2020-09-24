@@ -48,11 +48,26 @@ print(mm, type = "html")
 ```
 
 ## Average daily activity patterns
+A data frame for average step for each interval is made as followed.
+``` {r iterval}
+dInterval <- aggregate(noNa$steps, by = list(noNa$interval), mean)
+```
+A time series plot of these is generated:
+```{r timeSeries}
+plot(dInterval, type = "l", xlab = "Interval", ylab = "Mean Steps")
+```  
 
-
+  The interval with the maximum number of steps is shown.
+```{r}
+for(i in 1:length(dInterval[, 2])){
+    if(dInterval[i, 2] == max(dInterval[, 2])) {
+        maxInterval <- dInterval[i,1]}
+}
+maxInterval
+```
 
 ## Imputing missing values
 
 
 
-## Are there differences in activity patterns between weekdays and weekends?
+## Differences in activity patterns between weekdays and weekends
