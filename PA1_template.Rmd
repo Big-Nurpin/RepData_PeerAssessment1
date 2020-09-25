@@ -71,7 +71,7 @@ Number of missing values in the data.
 ```{r missing}
 sum(is.na(actData[, 1]))
 ```
-The following replaces the NA values with the mean of the that interval
+The following replaces the NA values with the mean of that interval.
 ``` {r replace, cache = TRUE}
 actDataNew <- data.frame()
 l <- length(actData[, 1])
@@ -104,10 +104,48 @@ md2 <- median(daily2)
 mm2 <- c(Mean = mn2, Median = md2)
 print(mm2, type = "html")
 ```
-The filled in data has a slight impact on the the average values. The values are calulated from the  
-first to the second calculation
+The filled in data has a slight impact on the average values. The values are 
+calculated from the first to the second calculation
 ``` {r differences}
 differences <- c(MeanDif = mn - mn2, MedianDif = md - md2)
 differences
 ```
+
 ## Differences in activity patterns between weekdays and weekends
+A factor variable differentiating the weekdays from the weekends is added to the
+data frame.
+```{r weekdays, cache = TRUE}
+y <- factor(c("weekday", "weekend"))
+z <- character()
+for(i in 1:l) {
+    z[i] <- weekdays(actDataNew[i,2])
+    if(z[i] == "Monday" || z[i] == "Tuesday" || z[i] == "Wednesday" ||
+       z[i] == "Thursday" || z[i] == "Friday") {
+        y[i] <- "weekday"   
+    }
+    else {y[i] <- "weekend"}
+}
+actDataNew <- cbind(actDataNew, y)    
+```
+Now the data can be separated and plotted based on weekdays and weekends.
+```{r plotWeekdays}
+weekdayList <- split(actDataNew,actDataNew$y)
+weekdayData <- data.frame(weekdayList[1])
+dIntervalDay <- aggregate(weekdayData$weekday.V1, 
+                          by = list(weekdayData$weekday.interval), mean)
+weekendData <- data.frame(weekdayList[2])
+dIntervalEnd <- aggregate(weekendData$weekend.V1, 
+                          by = list(weekendData$weekend.interval), mean)
+
+par(mfrow = c(2, 1), mar = c(4, 4, 2, 2))
+plot(dIntervalDay, type = "l", xlab = "", ylab = "Mean Steps",
+     main = "weekdays", ylim = c(0, 200))
+plot(dIntervalEnd, type = "l", xlab = "Interval", ylab = "Mean Steps",
+     main = "weekends", ylim = c(0, 200))
+```
+  
+  
+  The above the average steps taken throughout the day do vary quite a bit on 
+weeks vs.weekends.  
+
+
